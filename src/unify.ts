@@ -1,6 +1,7 @@
 import { Type, showType, containsTMeta, prune } from './types';
 import { terr } from './utils';
 import { Ix, metaSet, metaGet } from './tmetas';
+import { log } from './config';
 
 const bindTMeta = (ix: Ix, type: Type): void => {
   if (type.tag === 'TMeta' && type.ix === ix) return;
@@ -11,6 +12,7 @@ const bindTMeta = (ix: Ix, type: Type): void => {
 };
 
 export const unify = (left: Type, right: Type): void => {
+  log(() => `unify ${showType(left)} ~ ${showType(right)}`);
   if (left === right) return;
   if (left.tag === 'TVar' && right.tag === 'TVar' && left.name === right.name) return;
   if (left.tag === 'TCon' && right.tag === 'TCon' && left.name === right.name) return;
